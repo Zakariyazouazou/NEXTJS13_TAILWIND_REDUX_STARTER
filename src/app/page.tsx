@@ -3,7 +3,7 @@ import { Button } from '@material-tailwind/react'
 import Link from 'next/link';
 import {useSelector , useDispatch  } from 'react-redux';
 import { increment , decrement , incrementByAmount } from './GlobalRedux/Features/counter/counterSlice';
-
+import Header from './Component/Header';
 
 import { useTheme } from "next-themes";
 
@@ -14,10 +14,20 @@ export default function Home() {
   const dispatch = useDispatch()
 
   const { systemTheme, theme, setTheme } = useTheme();
-  const currentTheme = theme === 'system' ? systemTheme : theme;
+
+   // Toggle the theme and update local storage
+   const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    // Update local storage
+    localStorage.setItem('theme', newTheme);
+  };
+
+  
   
   return (
     <main className="flex justify-center">
+      <Header/>
         <div className='text-center'>
         <h1 className='text-red-500 font-bold dark:text-white '>
             Hello World 
@@ -38,7 +48,7 @@ export default function Home() {
         </Button>
        </div>
        <button
-            onClick={() => theme == "dark"? setTheme('light'): setTheme("dark")}
+            onClick={toggleTheme}
             className='bg-gray-800 dark:bg-gray-50 hover:bg-gray-600 dark:hover:bg-gray-300 transition-all duration-100 text-white dark:text-gray-800 px-8 py-2 text-2xl md:text-4xl rounded-lg  mt-5'>
             Toggle Mode
         </button>
