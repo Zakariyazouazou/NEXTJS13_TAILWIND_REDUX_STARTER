@@ -7,9 +7,10 @@ import { ThemeProvider } from 'next-themes';
 export function Providers({ children }:any) {
     return (
         <Provider store={store}>
-            <ThemeProvider enableSystem={true} attribute='class'>
-               {children}
-            </ThemeProvider>
+              {children}
+            {/* <ThemeProvider enableSystem={true} attribute='class'>
+              
+            </ThemeProvider> */}
         </Provider>
     )
 }

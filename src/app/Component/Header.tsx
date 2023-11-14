@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { changeDarkMode } from "../GlobalRedux/Features/DarKModeSetup"; 
 
-const Toggle = () => {
+const Header = () => {
   const [darkmode, setDarkmode] = useState<boolean>();
 
   const dispatch = useDispatch();
@@ -34,15 +34,15 @@ const Toggle = () => {
 
   return (
     <>
-      <button>
+    
        
           <span className="text-black dark:text-white " onClick={ToggleNow}>Dark</span>
             <br />
-           <span className="text-black dark:text-white " onClick={ToggleNow}>White</span>
+        <span className="text-black dark:text-white " onClick={ToggleNow}>White</span>
      
-      </button>
+   
     </>
   );
 };
 
-export default Toggle;
+export default Header;
