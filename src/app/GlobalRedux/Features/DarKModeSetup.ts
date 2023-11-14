@@ -1,29 +1,24 @@
-// darkModeSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import React, { useState } from "react";
+import { createSlice } from "@reduxjs/toolkit";
 
-export interface DarkModeState {
-  isDarkMode: boolean;
-}
 
-const initialState: DarkModeState = {
-  isDarkMode: localStorage.getItem('isDarkMode') === 'true' ? true : false,
-};
 
-export const darkModeSlice = createSlice({
-  name: 'darkMode',
-  initialState,
+const darkmodeStatus = typeof window !== 'undefined' ? localStorage.getItem('theme') : null
+
+
+export const themeMode = createSlice({
+  name: "themeMode",
+  initialState: {
+    value: darkmodeStatus,
+  },
   reducers: {
-    toggleDarkMode: (state) => {
-      state.isDarkMode = !state.isDarkMode;
-      localStorage.setItem('isDarkMode', state.isDarkMode.toString());
-    },
-    setDarkMode: (state, action: PayloadAction<boolean>) => {
-      state.isDarkMode = action.payload;
-      localStorage.setItem('isDarkMode', action.payload.toString());
+    changeDarkMode: (state, action) => {
+      state.value = action.payload;
     },
   },
 });
 
-export const { toggleDarkMode, setDarkMode } = darkModeSlice.actions;
+// Action creators are generated for each case reducer function
+export const { changeDarkMode } = themeMode.actions;
 
-export default darkModeSlice.reducer;
+export default themeMode.reducer;

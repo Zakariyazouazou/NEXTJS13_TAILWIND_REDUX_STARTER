@@ -1,43 +1,48 @@
-// Header.tsx
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleDarkMode , setDarkMode , darkModeSlice  } from '../GlobalRedux/Features/DarKModeSetup'; // Adjust the import path
-import { useTheme } from "next-themes";
+"use client"
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
+import { changeDarkMode } from "../GlobalRedux/Features/DarKModeSetup"; 
 
-const Header = () => {
+const Toggle = () => {
+  const [darkmode, setDarkmode] = useState<boolean>();
+
   const dispatch = useDispatch();
-  const isDarkMode = useSelector((state:any) => state.darkModeReducer.isDarkMode);
 
+  const ToggleNow = () => {
+    setDarkmode(!darkmode);
+  };
 
-  const { systemTheme, theme, setTheme } = useTheme();
-   
-  React.useEffect(()=>{
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    isDarkMode ? setTheme('dark') : setTheme('light')
-    // setTheme(newTheme);
-    // Update local storage
-    localStorage.setItem('theme', newTheme);
-    // console.log(theme)
-  },[isDarkMode])
+  useEffect(() => {
+    if (darkmode === true) {
+      localStorage.theme = "dark";
+      document.documentElement.classList.add("dark");
+      dispatch(changeDarkMode(localStorage.theme));
+    }
+    if (darkmode === false) {
+      localStorage.theme = "light";
+      document.documentElement.classList.remove("dark");
+      dispatch(changeDarkMode(localStorage.theme));
+    }
+  }, [darkmode, dispatch]);
+
+  useEffect(() => {
+    if (localStorage.theme === "dark") {
+      setDarkmode(true);
+    }
+  }, []);
 
   return (
-    <div>
-      <button onClick={() => dispatch(toggleDarkMode())}>
-        Toggle Dark Mode
+    <>
+      <button>
+       
+          <span className="text-black dark:text-white " onClick={ToggleNow}>Dark</span>
+            <br />
+           <span className="text-black dark:text-white " onClick={ToggleNow}>White</span>
+     
       </button>
-      <br />
-      <button onClick={() => dispatch(setDarkMode(true))}>
-        Set Dark Mode
-      </button>
-      <br />
-      <button onClick={() => dispatch(setDarkMode(false))}>
-        Set Light Mode
-      </button>
-
-      <p>Current Mode: {isDarkMode} _ {isDarkMode ? 'Dark' : 'Light'}</p>
-    </div>
+    </>
   );
 };
 
-export default Header;
+export default Toggle;
